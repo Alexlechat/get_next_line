@@ -6,7 +6,7 @@
 /*   By: allefran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:00:02 by allefran          #+#    #+#             */
-/*   Updated: 2024/12/17 13:58:45 by allefran         ###   ########.fr       */
+/*   Updated: 2024/12/18 15:15:12 by allefran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	line = NULL;
-	line = ft_strjoin(line, (const char *)buffer);
-	while (!ft_strchr((const char *)buffer, '\n'))
+	line = ft_strjoin(line, buffer);
+	while (!ft_strchr((const char *)buffer, '\n') && line != NULL)
 	{
 		nb_read = read(fd, buffer, BUFFER_SIZE);
 		if (nb_read == -1)
@@ -85,9 +85,10 @@ char	*get_next_line(int fd)
 				return (free(line), NULL);
 			return (line);
 		}
-		line = ft_strjoin(line, (const char *)buffer);
+		line = ft_strjoin(line, buffer);
 	}
+	if (!line)
+		return (NULL);
 	ft_next_line(buffer);
-	line = ft_print_line(line);
-	return (line);
+	return (ft_print_line(line));
 }
